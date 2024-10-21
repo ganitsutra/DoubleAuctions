@@ -28,4 +28,6 @@ coqc UM.v
 
 coqc MM.v
 
+coqc Demo.v
+
 
