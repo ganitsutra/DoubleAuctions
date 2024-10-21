@@ -1,21 +1,14 @@
-(* Demo file for the work "A Formal Approach to Exchange Design and Regulation" *)
+(* Demo file for the work "Double Auction: Formalization and Automated Checkers" *)
 
 Require Import Uniqueness.
 Require Import MM.
 
-(* Weak version of demand-supply theorem *)
-Theorem Bound_weak p M B A:
-        admissible B A /\ Matching M B A -> 
 
-        Vol(M) <= Qty_orders (supply_below_p p A) + Qty_orders (demand_above_at_p p B).
-Proof. intros. apply M_bound2. all:apply H. Qed.
-
-(* Strong version of demand-supply theorem *)
-Theorem Bound_strong (p:nat)(M: list transaction)(B A:list order):
+(* Demand-supply theorem *)
+Theorem Bound (p:nat)(M: list transaction)(B A:list order):
 NoDup (ids B) -> NoDup (ids A) -> Matching M B A -> 
-Vol(M) <= Qty_orders (supply_below_p p A) + 
-          Qty_orders (demand_above_p p B) +
-          minof (Nat.leb) (Qty_orders (demand_at_p p B))  (Qty_orders (supply_at_p p A)).
+Vol(M) <=  Qty_orders (supply_below_at_p p A) + 
+          Qty_orders (demand_above_at_p p B).
 Proof. apply Bound. Qed.
 
 (* Correctness of Fair procedure *)
@@ -68,3 +61,25 @@ Theorem soundness M1 M2 B A:
 
         Is_fair M2 B A.              (* M2 is fair matching over (B, A) *)
 Proof. intros. apply soundness with (M1:=M1). all:try apply H. Qed.
+
+
+Require Extraction.
+
+(*This part is tellling coq to extract nat, bool, additions, multiplications, equality and less than
+ Into the corrsponding OCaml types. *)
+Require Import ExtrOcamlBasic.
+Require Import ExtrOcamlString.
+Extract Inductive bool => "bool" [ "true" "false" ].
+Extract Inductive nat => "int"
+  [ "0" "(fun x -> x + 1)" ]
+  "(fun zero succ n -> if n=0 then zero () else succ (n-1))".
+Extract Constant plus => "( + )".
+Extract Constant mult => "( * )".
+Extract Constant Nat.eqb => "( = )".
+Extract Constant Nat.leb => "(<=)".
+
+Extraction  Language OCaml.
+Extraction "Demonstration/certified.ml" UM.UM MM.MM Qty_ask Qty_bid.
+
+Extraction  Language Haskell.
+Extraction "Demonstration/certified.hs" UM.UM MM.MM Qty_ask Qty_bid.
