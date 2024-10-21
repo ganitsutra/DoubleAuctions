@@ -16,12 +16,14 @@ We also include a demonstration of our automated checker on real market data tha
 
 To compile the formalization please run the executable shell script:
 > sh run.sh
+
 This file may take 5-6 minutes to compile.
 
 ## How to run the demonstration:
 
 After compiling the Coq code, go to the demonstration folder and run the following command:
 > sh CompileAndRunAll.sh
+
 The details of the demonstration are in the README file of the Demonstration folder.
 
 ## Coq files details:  
