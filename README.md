@@ -1,6 +1,4 @@
-# DoubleAuctions
-
-Double Auctions: Formalization and Automated Checkers
+# Double Auctions: Formalization and Automated Checkers
 
 ## Introduction.
 
