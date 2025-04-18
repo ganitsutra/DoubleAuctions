@@ -12,7 +12,7 @@ Definition Fair M B A := FOA (FOB M B) A.
 
 
 
-Lemma FOA_correct M B A:
+Theorem FOA_correct M B A:
 admissible B A /\ Matching M B A ->
 Matching (FOA M A) B A /\                                                       (* (a) *)
 Vol(M) = Vol(FOA M A) /\                                                        (* (b) *)
@@ -44,7 +44,7 @@ apply Permulation_perm. apply Incr_Ask.Permuted_sort.
 apply Permutation_permM. apply Incr_M.Permuted_sort. Qed.
 
 
-Lemma FOB_correct M B A:
+Theorem FOB_correct M B A:
 admissible B A /\ Matching M B A ->
 Matching (FOB M B) B A /\                                                       (* (a) *)
 Vol(M) = Vol(FOB M B) /\                                                        (* (b) *)
